@@ -1,0 +1,17 @@
+{
+	OutputFrame
+		node structure to be used in graphs
+		refers to some sort of output
+			misc multimedia
+			music
+			series of signals (true/false)
+		holds reference to the type of multimedia/signal
+		function that outputs Frame to screen or other output stream
+}
+
+(
+	Input
+		signal
+		traverses OutputFrame graph
+)
+
