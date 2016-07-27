@@ -1,0 +1,27 @@
+Slideshow 1.0.0
+
+- Slideshow dizinine kaydedilen resimleri, slideshow.sld ye kaydedilen bilgiler ile ekrana bastırıyor.
+
+
+Slideshow 1.0.2
+
+- Resimler ekranın tam ortasına bastırılıyor. Ölçeklenmeden boyutunu koruyor.
+
+Slideshow 1.0.3
+ 
+- Countdown timer eklendi:
+	Resimler başlamadan önce 3 ten geri sayım ve 1 sn siyah boşluk.
+	
+Not: Font için turkish.ttf kullanıldı.
+
+Slideshow 1.0.4
+
+- Experiments default dizini oluşturuldu. Bunun altındaki dizinlere örneğin :
+
+$ python slideshow.py cat
+
+komutuyla ulaşılabiliyor. Bu komut experiments/cat/config.ini dosyasını açıyor.
+
+Slideshow 1.0.5
+
+- INI formatı artık çalışıyor!
