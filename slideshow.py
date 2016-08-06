@@ -17,6 +17,9 @@ class Image(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = screen.get_width() / 2
         self.rect.centery = screen.get_height() / 2
+    
+    def update(self, alpha):
+        self.image.set_alpha(alpha)
         
 def start_countdown(screen):    
     # Get screens width,height -> center
@@ -44,8 +47,8 @@ class Slideshow():
         pygame.init()
         
         # Screen
-        # self.screen = pygame.display.set_mode((500,500))
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((500,500))
+        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         pygame.display.set_caption("Slideshow")
         
         # Invisible mouse
@@ -82,30 +85,39 @@ class Slideshow():
             
     def pickSlide(self, index):
         sprites = self.slideShow.sprites()
-        surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self.onSlides[index] = surface
-        self.screen.fill(BLACK)
-        self.currentSlide.empty()
-        self.currentSlide.add(sprites[index % len(sprites)])
-        
-        self.update()
-        
-        self.currentSlide.draw(surface)
-        
-        
-        
-        pygame.display.flip()
+        spriteIndex = index % len(sprites)
+        print self.onSlides
+        if spriteIndex in self.onSlides:
+            self.onSlides[spriteIndex] = self.onSlides[spriteIndex] + 1
+        else:
+            self.onSlides[spriteIndex] = 1
+        if self.onSlides[spriteIndex] == 1:
+            self.currentSlide.add(sprites[spriteIndex])
+        self.redraw()
         
     def dropSlide(self, index):
-        del self.onSlides[index]
-        self.update()
-        pygame.display.flip()
+        sprites = self.slideShow.sprites()
+        spriteIndex = index % len(sprites)
+        print self.onSlides
+        if spriteIndex in self.onSlides:
+            self.onSlides[spriteIndex] = self.onSlides[spriteIndex] - 1
+        else:
+            self.onSlides[spriteIndex] = 0
+        if self.onSlides[spriteIndex] == 0:
+            self.currentSlide.remove(sprites[spriteIndex])
+        self.redraw()
         
-    def update(self):
-        for slide in self.onSlides:
-            self.onSlides[slide].set_alpha(255 % len(self.onSlides))
-            print 'onslides len ' + str(len(self.onSlides))
-            self.onSlides[slide].blit(self.screen, (0,0))
+    def redraw(self):
+        self.screen.fill(BLACK)
+        sprites = self.currentSlide.sprites()
+        s = sum(self.onSlides.values())
+        print "sum: " + str(s)
+        if s:
+            self.currentSlide.update(255 / s)
+            # sprites[0].image.set_alpha(255)
+            # set back sprite to 255 alpha
+        self.currentSlide.draw(self.screen)
+        pygame.display.flip()
             
 if __name__ == "__main__":
     main()

@@ -41,28 +41,28 @@ on = {}
 
 def playNote(out, event, show):
     chan = event.status & 15
-    index = chan+1 * event.data1
+    index = (chan * 127) + event.data1
     
     if (event.status >> 4) == 144 >> 4:
         if index in on:
             out.note_off(event.data1, event.data2, chan)
             del on[index]
             show.dropSlide(index)
-            print '\noff\n'
+            print 'off ' + str(index)
         else:
             out.note_on(event.data1, event.data2, chan)
             on[index] = "on"
             show.pickSlide(index)
-            print 'on'
+            print 'on ' + str(index)
     elif (event.status >> 4) == 128 >> 4:
         out.note_off(event.data1, event.data2, chan)
         del on[index]
         show.dropSlide(index)
-        print 'off'
+        print 'off ' + str(index)
     elif event.status >> 4 == 192 >> 4:
         out.set_instrument(event.data1, chan)
         print 'instrument set'
-    print on
+    # print on
     
 class Input:
     def __init__(self):
